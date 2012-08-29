@@ -41,27 +41,10 @@
     
 }
 
-- (void) handleTimer: (NSTimer *) timer
-{
-    NSLog(@"%@",timer);
-}
--(void)test{
-    while (true) {
-        NSTimer *loop = [NSTimer scheduledTimerWithTimeInterval: 3
-                                                         target: self
-                                                       selector: @selector(handleTimer:)
-                                                       userInfo: nil
-                                                        repeats: NO];
-        [loop fire];
-    }
-}
+
 
 -(void)addNotification:(NSString *)timeData RouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
-    NSThread* thread =[[NSThread alloc] initWithTarget:self selector:@selector(test)   object:nil];
- 
-    
-    
-    '[thread start];
+
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     if (localNotif == nil){
         UIAlertView* alert = [[UIAlertView alloc]
