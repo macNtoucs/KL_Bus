@@ -56,7 +56,7 @@
         
     }
     
-    for (int j = 0 ; j <nearStopNumber; j++)
+    for (int j = 0 ; j <nearStopNumber-1; j++)
     {
         [mapView addAnnotation:[[Annotation alloc] initWhithTitle:nil
                                                          subTitle:nil 
@@ -79,13 +79,17 @@
     MKCoordinateRegion region;
     region.center.latitude = location.latitude;
     region.center.longitude = location.longitude;
+    
     //region.center.latitude = 25.150517;
     //region.center.longitude = 121.779973;
     region.span = span;
-    [mapView setRegion:region animated:YES];
-    [self mapView:mapView didUpdateUserLocation:userlocation];
+        [self mapView:mapView didUpdateUserLocation:userlocation];
+    NSLog(@"現在經緯度：%f, %f",region.center.latitude,region.center.longitude);
     [self addBusAnnotationNearLatitude :region.center.latitude andLongtitude:region.center.longitude];
-   // mapView.showsUserLocation = YES;
+    mapView.showsUserLocation = YES;
+    mapView.mapType = MKMapTypeStandard;
+    [mapView setRegion:region animated:YES];
+
     [self.view addSubview:mapView];
     [mapView release];
 
