@@ -45,6 +45,8 @@
 
 -(void)addNotification:(NSString *)timeData RouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
 
+  
+
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     if (localNotif == nil){
         UIAlertView* alert = [[UIAlertView alloc]
@@ -73,6 +75,7 @@
     localNotif.applicationIconBadgeNumber = 1;
     localNotif.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:RouteName,RouteNameKey,StopName,StopNameKey, nil];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+    
     [localNotif release];
     UIAlertView* alert = [[UIAlertView alloc]
                           initWithTitle:nil message:[NSString stringWithFormat:@"加入通知"]

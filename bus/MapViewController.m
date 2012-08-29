@@ -65,24 +65,27 @@
 
 }
 
+
+
 -(void)loadView
 {
     [super loadView];
-    mapView.showsUserLocation = YES;
+    
     nearStop = [NSMutableArray new];
     MKUserLocation *userlocation = [[MKUserLocation alloc]init];
     [userlocation setCoordinate:location];
     
     mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
     MKCoordinateRegion region;
-   // region.center.latitude = location.latitude;
-   // region.center.longitude = location.longitude;
-    region.center.latitude = 25.150517;
-    region.center.longitude = 121.779973;
+    region.center.latitude = location.latitude;
+    region.center.longitude = location.longitude;
+    //region.center.latitude = 25.150517;
+    //region.center.longitude = 121.779973;
     region.span = span;
     [mapView setRegion:region animated:YES];
     [self mapView:mapView didUpdateUserLocation:userlocation];
     [self addBusAnnotationNearLatitude :region.center.latitude andLongtitude:region.center.longitude];
+   // mapView.showsUserLocation = YES;
     [self.view addSubview:mapView];
     [mapView release];
 
