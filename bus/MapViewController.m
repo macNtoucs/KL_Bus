@@ -14,6 +14,7 @@
 
 @implementation MapViewController
 @synthesize nearStop;
+
 -(void) setlocation:(CLLocationCoordinate2D) inputloaction latitudeDelta:(double)latitude longitudeDelta:(double)longitude{
     location = inputloaction;
     span.latitudeDelta  = latitude;
@@ -25,16 +26,44 @@
     [theMapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
 }
 
+-(NSUInteger)findNextLocation:(NSString*)find 
+{
+    NSRange range = [find rangeOfString:@","];
+    return range.location;
+}
+
+-(void)fetchStopTitle:(NSString*)query{
+    NSMutableString *search = [NSMutableString stringWithString:query];
+    NSString *searchKey = @"laddr";
+    NSRange searchRange;
+    for (int i = 0 ; i <30 ; ++i)
+        BusTitle[i]=[NSString new];
+    int count = 0;
+    do{
+        searchRange = [search rangeOfString:searchKey];
+        int searchResultLocation = searchRange.location;
+        if (searchResultLocation>[query length]) break;
+         search = [search substringFromIndex:searchResultLocation+7];
+        int nextLocation = [self findNextLocation:search ];
+        BusTitle[count] = [search substringWithRange:NSMakeRange(0, nextLocation)];
+       
+        count++;
+    }while(true);
+}
+
 -(void)addBusAnnotationNearLatitude :(double)latitude andLongtitude:(double)longtitude{
     
     NSError *error = nil;
       NSRange  search_result_range;
-    NSString *query = [NSString stringWithFormat: @"https://maps.google.com.tw/maps?near=%f,%f&geocode=&q=公車站&f=li&hl=zh-TW&jsv=428a&ll=%f,%f&output=js",latitude, longtitude,latitude, longtitude];
+   // NSString *query = [NSString stringWithFormat: @"https://maps.google.com.tw/maps?near=%f,%f&geocode=&q=公車站&f=li&hl=zh-TW&jsv=428a&ll=%f,%f&output=js",latitude, longtitude,latitude, longtitude];
+    NSString *query = [NSString stringWithFormat: @"https://maps.google.com.tw/maps?near=25.150517,121.779973&geocode=&q=公車站&f=li&hl=zh-TW&jsv=428a&ll=25.150517,121.779973&output=js"];
     NSString *mapUrl=[query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     UInt32 big5 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingBig5);
     NSString* mapHTML = [NSString stringWithContentsOfURL:[NSURL URLWithString:mapUrl] encoding:big5 error:&error] ;    
     NSString* locationSearchKey = @"x26ll";
     NSMutableString *searchHTML = [NSMutableString stringWithString:mapHTML];
+    
+    [self fetchStopTitle:mapHTML];
     do{
         search_result_range = [searchHTML rangeOfString:locationSearchKey ];
         int searchResultLocation = search_result_range.location;
@@ -58,7 +87,7 @@
     
     for (int j = 0 ; j <nearStopNumber-1; j++)
     {
-        [mapView addAnnotation:[[Annotation alloc] initWhithTitle:nil
+        [mapView addAnnotation:[[Annotation alloc] initWhithTitle:BusTitle[j]
                                                          subTitle:nil 
                                                   andCoordiante:nearStopLoction[j]]];
     }
@@ -79,7 +108,7 @@
     MKCoordinateRegion region;
     region.center.latitude = location.latitude;
     region.center.longitude = location.longitude;
-    
+   // https://maps.google.com.tw/maps?near=25.150517,121.779973&geocode=&q=公車站&f=li&hl=zh-TW&jsv=428a&ll=25.150517,121.779973&output=js
     //region.center.latitude = 25.150517;
     //region.center.longitude = 121.779973;
     region.span = span;

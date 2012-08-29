@@ -15,8 +15,8 @@
     CLLocationCoordinate2D location;
     NSMutableArray *nearStop;
     CLLocationCoordinate2D nearStopLoction[30];
+    NSString *BusTitle[30];
 }
 @property (retain,nonatomic) NSMutableArray *nearStop;
-
 -(void) setlocation:(CLLocationCoordinate2D) inputloaction latitudeDelta:(double)latitude longitudeDelta:(double)longitude;
 @end
