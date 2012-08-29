@@ -36,6 +36,14 @@
   //  root.view.backgroundColor = [UIColor clearColor];
     [self.window makeKeyAndVisible];
     
+    UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotif)
+    {
+        NSLog(@"Recieved Notification %@",localNotif);
+        NSDictionary* infoDic = localNotif.userInfo;
+        NSLog(@"userInfo description=%@",[infoDic description]);
+    }
+    
     BOOL success;
     NSError *error;
     
@@ -73,11 +81,32 @@
      */
 }
 
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+    if ( ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) ||
+        ([UIApplication sharedApplication].applicationState == UIApplicationStateInactive)      ) {
+        // isInBackground = YES;
+        //  ------ UI not available
+    }
+    else {
+
+        UIAlertView* alert = [[UIAlertView alloc]
+                              initWithTitle:nil message:[NSString stringWithFormat:@"即將到站"]
+                              delegate:nil cancelButtonTitle:@"確定"
+                              otherButtonTitles: nil];
+        [alert show];
+        application.applicationIconBadgeNumber = 0;
+        [application cancelAllLocalNotifications];
+    }
+}
+
+
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     /*
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
+    application.applicationIconBadgeNumber = 0;
+    [application cancelAllLocalNotifications];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

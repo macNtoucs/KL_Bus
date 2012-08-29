@@ -13,6 +13,8 @@
 #define ButtonText2 @"加入常用"
 #define AlarmUserDefaultKey @"alarm"
 #define FavoriteUserDefaultKey @"user"
+#define RouteNameKey @"Key1"
+#define StopNameKey @"Key2"
 @implementation ToolBarController
 @synthesize toolbarcontroller;
 @synthesize button;
@@ -37,6 +39,73 @@
     else
         return oldString;
     
+}
+
+- (void) handleTimer: (NSTimer *) timer
+{
+    NSLog(@"%@",timer);
+}
+-(void)test{
+    while (true) {
+        NSTimer *loop = [NSTimer scheduledTimerWithTimeInterval: 3
+                                                         target: self
+                                                       selector: @selector(handleTimer:)
+                                                       userInfo: nil
+                                                        repeats: NO];
+        [loop fire];
+    }
+}
+
+-(void)addNotification:(NSString *)timeData RouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
+    NSThread* thread =[[NSThread alloc] initWithTarget:self selector:@selector(test)   object:nil];
+ 
+    
+    
+    '[thread start];
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    if (localNotif == nil){
+        UIAlertView* alert = [[UIAlertView alloc]
+                              initWithTitle:nil message:@"\n\nError"
+                              delegate:nil cancelButtonTitle:@"確定"
+                              otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    NSString *pureNumbers = [[timeData componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
+    NSLog(@"%@,%@",timeData,pureNumbers);
+    if (![pureNumbers intValue]) {
+        UIAlertView* alert = [[UIAlertView alloc]
+                              initWithTitle:nil message:[NSString stringWithFormat:@"%@",timeData]
+                              delegate:nil cancelButtonTitle:@"確定"
+                              otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
+    localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+    localNotif.timeZone = [NSTimeZone defaultTimeZone];
+    
+    localNotif.alertBody = [NSString stringWithFormat:@"即將進站"];
+    
+    localNotif.soundName = UILocalNotificationDefaultSoundName;
+    localNotif.applicationIconBadgeNumber = 1;
+    localNotif.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:RouteName,RouteNameKey,StopName,StopNameKey, nil];
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+    [localNotif release];
+    UIAlertView* alert = [[UIAlertView alloc]
+                          initWithTitle:nil message:[NSString stringWithFormat:@"加入通知"]
+                          delegate:nil cancelButtonTitle:@"確定"
+                          otherButtonTitles: nil];
+    [alert show];
+
+}
+
+-(void)removeNotificationRouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
+    NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+    for (UILocalNotification *row in notificationArray) {
+        if ([[row.userInfo objectForKey:RouteNameKey] isEqualToString: RouteName]&&[[row.userInfo objectForKey:StopNameKey]isEqualToString:StopName]) {
+            [[UIApplication sharedApplication] cancelLocalNotification:row];
+        }
+    }
 }
 
 -(IBAction)SaveUserDefault:(id)sender{
@@ -65,16 +134,19 @@
             if (![temp containsObject:RouteName]) {
                 [temp addObjectsFromArray:favoriteData];
                 [favoriteDictionary setObject:temp forKey:fixedStringStopName];
+                [self addNotification:[[delegate m_waitTimeResult] objectAtIndex:Tag] RouteName:RouteName andStopName:fixedStringStopName];
             }
             else{
                 NSInteger index = [temp indexOfObject:RouteName];
                 [temp removeObjectAtIndex:index];
                 [temp removeObjectAtIndex:index];
                 [favoriteDictionary setObject:temp forKey:fixedStringStopName];
+                [self removeNotificationRouteName:RouteName andStopName:fixedStringStopName];
             }
         }
         else{
             [favoriteDictionary setObject:favoriteData forKey:fixedStringStopName];
+            [self addNotification:[[delegate m_waitTimeResult] objectAtIndex:Tag] RouteName:RouteName andStopName:fixedStringStopName];
         }
         [prefs setObject:favoriteDictionary forKey:AlarmUserDefaultKey];
 
