@@ -61,7 +61,7 @@
  
     
     
-    '[thread start];
+    [thread start];
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     if (localNotif == nil){
         UIAlertView* alert = [[UIAlertView alloc]

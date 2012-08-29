@@ -65,10 +65,12 @@
 
 }
 
+
+
 -(void)loadView
 {
     [super loadView];
-    mapView.showsUserLocation = YES;
+    
     nearStop = [NSMutableArray new];
     MKUserLocation *userlocation = [[MKUserLocation alloc]init];
     [userlocation setCoordinate:location];
@@ -83,6 +85,7 @@
     [mapView setRegion:region animated:YES];
     [self mapView:mapView didUpdateUserLocation:userlocation];
     [self addBusAnnotationNearLatitude :region.center.latitude andLongtitude:region.center.longitude];
+    mapView.showsUserLocation = YES;
     [self.view addSubview:mapView];
     [mapView release];
 
