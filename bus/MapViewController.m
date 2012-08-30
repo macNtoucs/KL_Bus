@@ -94,7 +94,28 @@
 
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    switchButton = [[UIBarButtonItem alloc] initWithTitle:@"切換衛星地圖" style:UIBarButtonItemStylePlain target:self action:@selector(switchMapType)];
+    self.navigationItem.rightBarButtonItem = switchButton;
+    
+}
 
+-(void)switchMapType{
+   if (switchButton.title==@"切換衛星地圖")
+   {
+       mapView.mapType = MKMapTypeSatellite;
+       switchButton.title =@"切換標準地圖";
+   }
+   else if (switchButton.title==@"切換標準地圖")
+   {
+       mapView.mapType = MKMapTypeStandard;
+       switchButton.title =@"切換衛星地圖";
+
+   }
+    [self reloadInputViews];
+}
 
 -(void)loadView
 {
@@ -138,6 +159,7 @@
 - (void)dealloc
 {
     [mapView release];
+    [switchButton release];
     [super dealloc];
 }
 
