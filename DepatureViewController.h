@@ -28,7 +28,7 @@
     ToolBarController* toolbar;
 }
 
-- (void) getURL:(NSString* ) inputURL andRoute:(NSString *) route; 
+- (void) getURL:(NSString* ) inputURL andRoute:(NSString *) route andCorrect:(BOOL) Correct;
 - (void)reloadTableViewDataSource; 
 - (void)doneLoadingTableViewData; 
 @property (nonatomic, retain) NSArray* item;

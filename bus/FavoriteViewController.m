@@ -11,6 +11,8 @@
 @implementation FavoriteViewController
 @synthesize favoriteDic,m_waitTimeResult,m_routesResult;
 @synthesize lastRefresh;
+@synthesize toolbar;
+
 int rowNumberInSection [300] ={0};
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -47,6 +49,8 @@ int rowNumberInSection [300] ={0};
     m_waitTimeResult = [NSMutableArray new];
     m_routesResult = [NSMutableArray new];
     favoriteDic =[NSMutableDictionary new];
+    toolbar = [[ToolBarController alloc]init];
+    [self.navigationController.view addSubview:[toolbar CreatTabBarWithNoFavorite:YES delegate:self] ];
     UIBarButtonItem *editButton = [ [UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(ToggleEdit:)];
     self.navigationItem.rightBarButtonItem = editButton;
     [editButton release];
@@ -85,6 +89,7 @@ int rowNumberInSection [300] ={0};
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.navigationController.view addSubview:toolbar.toolbarcontroller];
     [super viewWillAppear:animated];
 }
 
@@ -179,6 +184,7 @@ int rowNumberInSection [300] ={0};
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [toolbar.toolbarcontroller removeFromSuperview];
     [super viewWillDisappear:animated];
 }
 
@@ -269,29 +275,24 @@ int rowNumberInSection [300] ={0};
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d%d", [indexPath section], [indexPath row]];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
-    //[m_routesResult addObject: [[favoriteDic objectForKey: [[favoriteDic allKeys] objectAtIndex:indexPath.section ]] objectAtIndex: indexPath.row*2]  ];
+
     cell.textLabel.text = [[favoriteDic objectForKey: [[favoriteDic allKeys] objectAtIndex:indexPath.section ]] objectAtIndex: indexPath.row*2];
-   cell.textLabel.adjustsFontSizeToFitWidth = YES;
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
     cell.textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
     cell.detailTextLabel.text = [m_waitTimeResult objectAtIndex: [self accumlationOfRowNumberToSection:indexPath.section] + indexPath.row] ;
-    /*NSString* temp;
-     int num = 0,i=0;
-    for (NSString *waitTimeResult in m_waitTimeResult) {
-        if ([waitTimeResult isEqualToString:cell.textLabel.text]&&num<=indexPath.section) {
-            temp = [[[NSString alloc] initWithString:[m_waitTimeResult objectAtIndex:i+1]] autorelease];
-            num++;
-        }
-        i++;
-    }
-    cell.detailTextLabel.text = temp;*/
+
+    [[cell.contentView viewWithTag:indexPath.row+1+indexPath.section*1000]removeFromSuperview];
+    [cell.contentView addSubview:[toolbar CreateButton:indexPath]];
+    [toolbar isStopAdded:cell.textLabel.text andStop:[[favoriteDic allKeys] objectAtIndex:indexPath.section]];
+    
     if ([cell.detailTextLabel.text isEqualToString:@"即將進站..."]) {
         cell.detailTextLabel.textColor = [UIColor redColor];
     }

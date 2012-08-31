@@ -21,14 +21,18 @@
 @synthesize  m_RouteResult;
 @synthesize success;
 @synthesize toolbar;
-- (void) getURL:(NSString* ) inputURL andRoute:(NSString *) route
+- (void) getURL:(NSString* ) inputURL andRoute:(NSString *) route andCorrect:(BOOL) Correct
 {
-    NSString* string = [NSString stringWithString:@"http://ebus.klcba.gov.tw/KLBusWeb/pda/"];
-    string = [string stringByAppendingString:inputURL];
-    url= [[NSURL alloc] initWithString:string];
+    if (Correct) {
+        NSString* string = @"http://ebus.klcba.gov.tw/KLBusWeb/pda/";
+        string = [string stringByAppendingString:inputURL];
+        url= [[NSURL alloc] initWithString:string];
+    }
+    else{
+        url= [[NSURL alloc] initWithString:inputURL];
+    }
     Route = [[NSString alloc] initWithString:route];
 }
-
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -179,9 +183,8 @@
     m_waitTime = [NSMutableArray new];
     m_RouteResult = [NSMutableArray new];
     toolbar = [[ToolBarController alloc]init];
-    [self.navigationController.view addSubview:[[toolbar CreatTabBarWithNoFavorite:NO delegate:self] autorelease]];
+    [self.navigationController.view addSubview:[toolbar CreatTabBarWithNoFavorite:NO delegate:self] ];
     anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Refresh" style:UIBarButtonItemStylePlain target:self action:@selector(refreshPropertyList)];
-    [self startTimer];
     self.navigationItem.rightBarButtonItem = anotherButton;
     //[anotherButton release];
     
@@ -215,13 +218,16 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
+    [self.navigationController.view addSubview:toolbar.toolbarcontroller];
     [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self CatchData];
+    if (!item) {
+        [self CatchData];
+    }
+    [self startTimer];
     [super viewDidAppear:animated];
 }
 

@@ -17,7 +17,7 @@
 
 - (void) getURL:(NSString* ) inputURL
 {
-    NSString* string = [NSString stringWithString:@"http://ebus.klcba.gov.tw/KLBusWeb/pda/"];
+    NSString* string = @"http://ebus.klcba.gov.tw/KLBusWeb/pda/";
     string = [string stringByAppendingString:inputURL];
     url = [NSURL URLWithString:string];
     [url retain];   
@@ -215,7 +215,7 @@
     DepatureViewController *detail = [DepatureViewController new];
     detail.title = @"站牌資訊";
     TFHppleElement* T_ptr = [item objectAtIndex:indexPath.row];
-    [detail getURL:[T_ptr.attributes valueForKey:@"href"] andRoute:cell.textLabel.text];
+    [detail getURL:[T_ptr.attributes valueForKey:@"href"] andRoute:cell.textLabel.text andCorrect:YES];
     [self.navigationController pushViewController:detail animated:YES];
     [loadingAlertView dismissWithClickedButtonIndex:0 animated:NO];
     [loadingAlertView release];

@@ -10,10 +10,12 @@
 
 @class busViewController;
 
-@interface busAppDelegate : NSObject <UIApplicationDelegate>
+@interface busAppDelegate : NSObject <UIApplicationDelegate>{
+    UINavigationController *nav;
+}
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-
+@property (nonatomic, retain) UINavigationController *nav;
 @property (nonatomic, retain) IBOutlet busViewController *viewController;
 
 @end

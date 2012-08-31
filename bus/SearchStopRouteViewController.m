@@ -18,6 +18,7 @@
 @synthesize lastRefresh;
 @synthesize thisStop;
 @synthesize success;
+@synthesize toolbar;
 -(void)setArray : (NSMutableArray *)input_arr andStop: (NSString *)stop{
     input = [input_arr mutableCopy];
     thisStop = [[NSString alloc] initWithString:stop];
@@ -170,10 +171,11 @@
 {
     [super viewDidLoad];
     anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Refresh" style:UIBarButtonItemStylePlain target:self action:@selector(refreshPropertyList)];     
-    [self startTimer];
     self.navigationItem.rightBarButtonItem = anotherButton;
    // [anotherButton release];
-    
+    toolbar = [[ToolBarController alloc]init];
+    [self.navigationController.view addSubview:[toolbar CreatTabBarWithNoFavorite:NO delegate:self] ];
+
     if (_refreshHeaderView == nil) { 
         EGORefreshTableHeaderView *view1 = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f,5.0f - self.tableView.bounds.size.height,self.tableView.bounds.size.width,self.tableView.bounds.size.height)]; 
         view1.delegate = self; 
@@ -201,18 +203,23 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.navigationController.view addSubview:toolbar.toolbarcontroller];
     [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self setInfo:input];
+    [self startTimer];
+    if (![m_waitTimeResult count]) {
+        [self setInfo:input];
+    }
     [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [toolbar.toolbarcontroller removeFromSuperview];
     [super viewWillDisappear:animated];
 }
 
@@ -257,37 +264,6 @@
     return 1;
 }
 
--(IBAction)favorite:(id)sender{
-    
-    
-    UIButton * button = (UIButton *) sender;
-    int Tag = button.tag;
-    NSUserDefaults *prefs = [[NSUserDefaults standardUserDefaults]retain];
-    NSMutableArray *favoriteData = [[NSMutableArray alloc] initWithObjects:[m_routes objectAtIndex:Tag], [m_waitTime objectAtIndex:Tag],nil];
-    NSMutableDictionary *favoriteDictionary = [[prefs objectForKey:@"user"] mutableCopy];
-    if (![prefs objectForKey:@"user"]) {
-        favoriteDictionary = [ NSMutableDictionary new ];
-    }
-    NSMutableArray* temp = [[favoriteDictionary objectForKey:thisStop] mutableCopy];
-    if ( temp ){
-        if (![temp containsObject:[m_routes objectAtIndex:Tag]]) {
-            [temp addObjectsFromArray:favoriteData];
-            [favoriteDictionary setObject:temp forKey:thisStop];
-        }
-    }
-    else{
-        [favoriteDictionary setObject:favoriteData forKey:thisStop];
-    }
-    [prefs setObject:favoriteDictionary forKey:@"user"];
-    [prefs synchronize];
-    [self.navigationController.view addSubview:success];  
-    success.alpha = 1.0f;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:1.0f];
-    success.alpha = 0.0f;
-    [UIView commitAnimations];
-    [button removeFromSuperview];
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -295,13 +271,13 @@
     return [m_routes count];
 }
 
--(BOOL) isStopAdded : (NSString*) input
+-(BOOL) isStopAdded : (NSString*) Input
 {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *dic = [[prefs objectForKey:@"user"] mutableCopy];
     NSMutableArray* temp = [[dic objectForKey:thisStop] mutableCopy];
     if ( temp ){
-        if (![temp containsObject:input]) {
+        if (![temp containsObject:Input]) {
             return false;
         }
         else return true;
@@ -314,19 +290,9 @@
     NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d%d", [indexPath section], [indexPath row]];
    // NSError* error;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    UIButton *button = [UIButton buttonWithType:0];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-        
-        button.tag = indexPath.row;
-        button.frame  = CGRectMake(275, 5, 30, 30);
-        UIImage* star = [UIImage imageNamed:@"star-button.png"];
-        [button setImage:star forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(favorite:) forControlEvents:UIControlEventTouchUpInside];
-        button.backgroundColor =  [UIColor yellowColor];
-        [cell addSubview:button];
     }
-    
     // Configure the cell...
      cell.textLabel.adjustsFontSizeToFitWidth = YES;
      cell.textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
@@ -334,6 +300,11 @@
     NSString *waitTimeResult = [m_waitTimeResult objectAtIndex:indexPath.row];
      cell.detailTextLabel.text = waitTimeResult;
     
+    [[cell.contentView viewWithTag:indexPath.row+1]removeFromSuperview];
+    [cell.contentView addSubview:[toolbar CreateButton:indexPath]];
+    [toolbar isStopAdded:cell.textLabel.text andStop:thisStop];
+   
+        
     if ([waitTimeResult isEqualToString:@"即將進站..."]) {
         cell.detailTextLabel.textColor = [UIColor redColor];
     }
@@ -344,7 +315,6 @@
         cell.detailTextLabel.textColor = [UIColor colorWithRed:35.0/255 green:192.0/255 blue:46/255 alpha:1];        
     }
     cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
-    if ( [self isStopAdded:cell.textLabel.text]) [button removeFromSuperview];
     return cell;
 }
 

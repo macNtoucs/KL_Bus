@@ -55,8 +55,8 @@
     
     NSError *error = nil;
       NSRange  search_result_range;
-   // NSString *query = [NSString stringWithFormat: @"https://maps.google.com.tw/maps?near=%f,%f&geocode=&q=公車站&f=li&hl=zh-TW&jsv=428a&ll=%f,%f&output=js",latitude, longtitude,latitude, longtitude];
-    NSString *query = [NSString stringWithFormat: @"https://maps.google.com.tw/maps?near=25.150517,121.779973&geocode=&q=公車站&f=li&hl=zh-TW&jsv=428a&ll=25.150517,121.779973&output=js"];
+    NSString *query = [NSString stringWithFormat: @"https://maps.google.com.tw/maps?near=%f,%f&geocode=&q=公車站&f=li&hl=zh-TW&jsv=428a&ll=%f,%f&output=js",latitude, longtitude,latitude, longtitude];
+   // NSString *query = [NSString stringWithFormat: @"https://maps.google.com.tw/maps?near=25.150517,121.779973&geocode=&q=公車站&f=li&hl=zh-TW&jsv=428a&ll=25.150517,121.779973&output=js"];
     NSString *mapUrl=[query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     UInt32 big5 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingBig5);
     NSString* mapHTML = [NSString stringWithContentsOfURL:[NSURL URLWithString:mapUrl] encoding:big5 error:&error] ;    

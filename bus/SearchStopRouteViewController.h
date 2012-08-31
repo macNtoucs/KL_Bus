@@ -10,7 +10,7 @@
 #import "TFHpple.h"
 #import "EGORefreshTableHeaderView.h"
 #import "FavoriteViewController.h"
-
+#import "ToolBarController.h"
 
 @interface SearchStopRouteViewController : UITableViewController<EGORefreshTableHeaderDelegate>
 {
@@ -25,6 +25,7 @@
     NSDate * lastRefresh;
     NSString *thisStop;
     UIImageView *success;
+    ToolBarController* toolbar;
 }
 @property (nonatomic , retain) NSMutableArray *m_routes;
 @property (nonatomic, retain) NSMutableArray *m_waitTime;
@@ -35,5 +36,6 @@
 @property (nonatomic, retain) NSDate *lastRefresh;
 @property (nonatomic ,retain) NSString *thisStop;
 @property (nonatomic, retain)UIImageView *success;
+@property (nonatomic ,retain) ToolBarController* toolbar;
 -(void)setArray : (NSMutableArray *)input_arr andStop: (NSString *)stop;
 @end

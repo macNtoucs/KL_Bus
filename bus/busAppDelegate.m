@@ -8,10 +8,11 @@
 
 #import "busAppDelegate.h"
 #import "RootViewController.h"
+#import "DepatureViewController.h"
 
 
 @implementation busAppDelegate
-
+@synthesize nav;
 @synthesize window = _window;
 @synthesize viewController = _viewController;
 
@@ -27,7 +28,7 @@
     root.view.backgroundColor = [UIColor clearColor];
     
    
-    UINavigationController *nav = [UINavigationController new];
+    nav = [UINavigationController new];
     root.title = @"公車導航系統";
     [nav pushViewController:root animated:NO];
     [root release];
@@ -82,22 +83,47 @@
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+    NSMutableDictionary *favoriteDictionary = [[[NSUserDefaults standardUserDefaults] objectForKey:AlarmUserDefaultKey] mutableCopy];
+    NSMutableArray* temp = [[favoriteDictionary objectForKey:[notification.userInfo objectForKey:StopNameKey]] mutableCopy];
+    NSInteger index = [temp indexOfObject:[notification.userInfo objectForKey:RouteNameKey]];
+    
     if ( ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) ||
         ([UIApplication sharedApplication].applicationState == UIApplicationStateInactive)      ) {
         // isInBackground = YES;
         //  ------ UI not available
     }
     else {
-
         UIAlertView* alert = [[UIAlertView alloc]
-                              initWithTitle:nil message:[NSString stringWithFormat:@"即將到站"]
+                              initWithTitle:nil message:[NSString stringWithFormat:@"%@\n%@\n即將到站.....",[notification.userInfo objectForKey:RouteNameKey],[notification.userInfo objectForKey:StopNameKey]]
                               delegate:nil cancelButtonTitle:@"確定"
                               otherButtonTitles: nil];
         [alert show];
         application.applicationIconBadgeNumber = 0;
         [application cancelAllLocalNotifications];
     }
+    if ([self.nav.topViewController isKindOfClass:[DepatureViewController class]]) {
+        UITableViewController* firstLevelViewController =(UITableViewController* )self.nav.topViewController;
+        [firstLevelViewController.tableView reloadData];
+    }
+    else{
+        DepatureViewController *detail = [DepatureViewController new];
+        detail.title = @"站牌資訊";
+        [detail getURL:[[[[temp objectAtIndex:index+1] componentsSeparatedByString:@"&"] objectAtIndex:0] stringByReplacingOccurrencesOfString:@"result" withString:@"stop"] andRoute:[temp objectAtIndex:index] andCorrect:NO];
+        [self.nav pushViewController:detail animated:NO];
+        [detail release];
+    }
+    
+    if (index==NSNotFound) {
+        return;
+    }
+    [temp removeObjectAtIndex:index];
+    [temp removeObjectAtIndex:index];
+    [favoriteDictionary setObject:temp forKey:[notification.userInfo objectForKey:StopNameKey]];
+    [[NSUserDefaults standardUserDefaults] setObject:favoriteDictionary forKey:AlarmUserDefaultKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
 }
+
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

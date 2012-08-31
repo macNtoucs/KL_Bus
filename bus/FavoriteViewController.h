@@ -10,7 +10,7 @@
 #import <libxml/HTMLparser.h>
 #import "TFHpple.h"
 #import "EGORefreshTableHeaderView.h"
-
+#import "ToolBarController.h"
 @interface FavoriteViewController : UITableViewController<EGORefreshTableHeaderDelegate>{
 
     NSMutableDictionary* favoriteDic ;
@@ -20,11 +20,12 @@
     EGORefreshTableHeaderView *_refreshHeaderView; 
     BOOL _reloading;
     NSDate * lastRefresh;
-    
+    ToolBarController* toolbar;
 }
 
 @property (nonatomic, retain)  NSMutableDictionary* favoriteDic ;
 @property (nonatomic, retain)  NSMutableArray* m_waitTimeResult ;
 @property (nonatomic, retain) NSMutableArray* m_routesResult;
 @property (nonatomic, retain) NSDate *lastRefresh;
+@property (nonatomic ,retain) ToolBarController* toolbar;
 @end

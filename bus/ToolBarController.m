@@ -9,19 +9,16 @@
 #import "ToolBarController.h"
 #import "DepatureViewController.h"
 #import "SearchStopRouteViewController.h"
-#define ButtonText1 @"加入通知"
-#define ButtonText2 @"加入常用"
-#define AlarmUserDefaultKey @"alarm"
-#define FavoriteUserDefaultKey @"user"
-#define RouteNameKey @"Key1"
-#define StopNameKey @"Key2"
+#import "AlertViewDelegate.h"
+#import "FavoriteViewController.h"
 @implementation ToolBarController
 @synthesize toolbarcontroller;
 @synthesize button;
 @synthesize success;
+
 -(id)init{
     if (self ==[super init]) {
-
+        
         toolbarcontroller = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 436, 320, 44)];
         
         toolbarcontroller.barStyle = UIBarButtonItemStyleBordered;
@@ -42,11 +39,7 @@
 }
 
 
-
 -(void)addNotification:(NSString *)timeData RouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
-
-  
-
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     if (localNotif == nil){
         UIAlertView* alert = [[UIAlertView alloc]
@@ -75,14 +68,13 @@
     localNotif.applicationIconBadgeNumber = 1;
     localNotif.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:RouteName,RouteNameKey,StopName,StopNameKey, nil];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
-    
     [localNotif release];
     UIAlertView* alert = [[UIAlertView alloc]
                           initWithTitle:nil message:[NSString stringWithFormat:@"加入通知"]
                           delegate:nil cancelButtonTitle:@"確定"
                           otherButtonTitles: nil];
     [alert show];
-
+    
 }
 
 -(void)removeNotificationRouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
@@ -95,7 +87,8 @@
 }
 
 -(IBAction)SaveUserDefault:(id)sender{
-    int Tag = [sender tag]-1;
+    int Tag = [sender tag]%1000-1;
+    int section = [sender tag]/1000;
     NSUserDefaults *prefs = [[NSUserDefaults standardUserDefaults]retain];
     NSMutableArray *favoriteData;
     NSString * fixedStringStopName;
@@ -104,6 +97,12 @@
         RouteName = [delegate Route];
         favoriteData = [[NSMutableArray alloc] initWithObjects: RouteName , [[delegate m_waitTime] objectAtIndex:Tag],nil];
         fixedStringStopName = [self fixedStringBrackets: [[delegate m_RouteResult] objectAtIndex:Tag]];
+    }
+    else if ([delegate isKindOfClass:[FavoriteViewController class]]){
+        NSArray* temp = [[delegate favoriteDic] objectForKey: [[[delegate favoriteDic] allKeys] objectAtIndex:section ]];
+        RouteName = [temp objectAtIndex:Tag*2];
+        favoriteData = [[NSMutableArray alloc] initWithObjects:RouteName, [temp objectAtIndex:Tag*2+1],nil];
+        fixedStringStopName = [[[delegate favoriteDic] allKeys] objectAtIndex:section];
     }
     else{
         RouteName = [[delegate m_routes] objectAtIndex:Tag];
@@ -135,7 +134,7 @@
             [self addNotification:[[delegate m_waitTimeResult] objectAtIndex:Tag] RouteName:RouteName andStopName:fixedStringStopName];
         }
         [prefs setObject:favoriteDictionary forKey:AlarmUserDefaultKey];
-
+        
     }
     else if (ButtonMode==2) {
         NSMutableDictionary *favoriteDictionary = [[prefs objectForKey:FavoriteUserDefaultKey] mutableCopy];
@@ -206,7 +205,7 @@
     }
     else if (ButtonMode==1){
         button = [UIButton buttonWithType:0];
-        button.tag = indexPath.row+1;
+        button.tag = indexPath.row+1+indexPath.section*1000;
         button.frame  = CGRectMake(275, 5, 30, 30);
         UIImage* star = [UIImage imageNamed:@"Alert.png"];
         [button setImage:star forState:UIControlStateNormal];
@@ -215,7 +214,7 @@
     }
     else if (ButtonMode==2) {
         button = [UIButton buttonWithType:0];
-        button.tag = indexPath.row+1;
+        button.tag = indexPath.row+1+indexPath.section*1000;
         button.frame  = CGRectMake(275, 5, 30, 30);
         UIImage* star = [UIImage imageNamed:@"star-button.png"];
         [button setImage:star forState:UIControlStateNormal];
@@ -238,18 +237,36 @@
 }
 
 
+- (IBAction)buttonPressHome:(UIBarButtonItem *)sender
+{
+    [[delegate navigationController] popToRootViewControllerAnimated:YES];
+    
+}
+
+- (IBAction)buttonPressFavorite:(UIBarButtonItem *)sender{
+    AlertViewDelegate *alert = [[AlertViewDelegate alloc]init];
+    [alert AlertViewStart];
+    FavoriteViewController *favorite = [[FavoriteViewController alloc] initWithStyle:UITableViewStylePlain];
+    favorite.title = @"常用路線";
+    [[delegate navigationController] pushViewController:favorite animated:YES];
+    [favorite release];
+    [alert AlertViewEnd];
+}
+
 -(UIToolbar *)CreatTabBarWithNoFavorite:(BOOL) favorite delegate:(id)dele{
     delegate = dele;
     if ([delegate isKindOfClass:[DepatureViewController class]]) {
         Fix = YES;
     }
     UIBarButtonItem* barItem1 = [[UIBarButtonItem alloc] initWithTitle:ButtonText1 style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPress:)];
+    UIBarButtonItem* barItem3 = [[UIBarButtonItem alloc] initWithTitle:ButtonText3 style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressHome:)];
+    UIBarButtonItem* barItem4 = [[UIBarButtonItem alloc] initWithTitle:ButtonText4 style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPressFavorite:)];
     if (favorite) {
-    [toolbarcontroller setItems:[NSArray arrayWithObject:barItem1]];
+        [toolbarcontroller setItems:[NSArray arrayWithObjects:barItem1, nil]];
     }
     else{
         UIBarButtonItem* barItem2 = [[UIBarButtonItem alloc] initWithTitle:ButtonText2 style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPress:)];
-        [toolbarcontroller setItems:[NSArray arrayWithObjects:barItem1,barItem2, nil]];
+        [toolbarcontroller setItems:[NSArray arrayWithObjects:barItem1,barItem2,barItem3,barItem4, nil]];
     }
     [toolbarcontroller addSubview:[delegate view]];
     return toolbarcontroller;
