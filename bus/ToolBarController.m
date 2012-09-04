@@ -15,6 +15,7 @@
 @synthesize toolbarcontroller;
 @synthesize button;
 @synthesize success;
+@synthesize localNotif;
 
 -(id)init{
     if (self ==[super init]) {
@@ -24,8 +25,15 @@
         toolbarcontroller.barStyle = UIBarButtonItemStyleBordered;
         toolbarcontroller.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     }
+    UIDevice* device = [UIDevice currentDevice];
+    BOOL backgroundSupported = NO;
+    if ([device respondsToSelector:@selector(isMultitaskingSupported)]){
+        backgroundSupported = device.multitaskingSupported;
+    }
     return self;
 }
+
+
 
 -(NSString*) fixedStringBrackets : (NSString *)oldString
 {
@@ -37,10 +45,13 @@
         return oldString;
     
 }
+-(UILocalNotification *)returnLocalNotifiction{
+    return localNotif;
 
+}
 
 -(void)addNotification:(NSString *)timeData RouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
-    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    localNotif = [[UILocalNotification alloc] init];
     if (localNotif == nil){
         UIAlertView* alert = [[UIAlertView alloc]
                               initWithTitle:nil message:@"\n\nError"
@@ -59,7 +70,7 @@
         [alert show];
         return;
     }
-    localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+    localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow: 10];
     localNotif.timeZone = [NSTimeZone defaultTimeZone];
     
     localNotif.alertBody = [NSString stringWithFormat:@"即將進站"];

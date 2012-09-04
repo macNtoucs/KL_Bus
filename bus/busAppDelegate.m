@@ -76,10 +76,13 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    /*
-     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-     If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-     */
+        NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+    for (UILocalNotification *notifiction in notificationArray){
+        NSString* qurey_StopName = [notifiction.userInfo objectForKey:StopNameKey];
+        NSString* query_RouteName = [notifiction.userInfo objectForKey:RouteNameKey];
+       
+        }
+        NSLog(@"did enter background");
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
@@ -89,14 +92,14 @@
     
     if ( ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) ||
         ([UIApplication sharedApplication].applicationState == UIApplicationStateInactive)      ) {
-        // isInBackground = YES;
-        //  ------ UI not available
+        
+        
     }
     else {
         UIAlertView* alert = [[UIAlertView alloc]
                               initWithTitle:nil message:[NSString stringWithFormat:@"%@\n%@\n即將到站.....",[notification.userInfo objectForKey:RouteNameKey],[notification.userInfo objectForKey:StopNameKey]]
                               delegate:nil cancelButtonTitle:@"確定"
-                              otherButtonTitles: nil];
+                              otherButtonTitles: nil]; 
         [alert show];
         application.applicationIconBadgeNumber = 0;
         [application cancelAllLocalNotifications];

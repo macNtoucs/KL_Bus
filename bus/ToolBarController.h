@@ -23,6 +23,7 @@
     id delegate;
     bool Fix;
     UIImageView *success;
+    UILocalNotification *localNotif;
 }
 
 -(UIToolbar *)CreatTabBarWithNoFavorite:(BOOL) favorite delegate:(id)dele;
@@ -32,4 +33,5 @@
 @property (nonatomic, retain) UIToolbar* toolbarcontroller;
 @property (nonatomic, retain) UIButton *button;
 @property (nonatomic, retain)UIImageView *success;
+@property (nonatomic, retain)UILocalNotification *localNotif;
 @end

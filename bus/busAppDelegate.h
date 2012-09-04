@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ToolBarController.h"
 @class busViewController;
 
 @interface busAppDelegate : NSObject <UIApplicationDelegate>{
