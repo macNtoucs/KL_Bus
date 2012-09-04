@@ -62,6 +62,7 @@
     }
     NSString *pureNumbers = [[timeData componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
     NSLog(@"%@,%@",timeData,pureNumbers);
+    NSLog(@"%@,%@",RouteName,StopName);
     if (![pureNumbers intValue]) {
         UIAlertView* alert = [[UIAlertView alloc]
                               initWithTitle:nil message:[NSString stringWithFormat:@"%@",timeData]
@@ -70,8 +71,8 @@
         [alert show];
         return;
     }
-    localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow: 10];
-    localNotif.timeZone = [NSTimeZone defaultTimeZone];
+    localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow: [pureNumbers intValue]*60];
+    localNotif.timeZone = [NSTimeZone localTimeZone];
     
     localNotif.alertBody = [NSString stringWithFormat:@"即將進站"];
     
@@ -85,7 +86,7 @@
                           delegate:nil cancelButtonTitle:@"確定"
                           otherButtonTitles: nil];
     [alert show];
-    
+    NSLog(@"%@",localNotif.fireDate);
 }
 
 -(void)removeNotificationRouteName:(NSString *)RouteName andStopName:(NSString *)StopName{

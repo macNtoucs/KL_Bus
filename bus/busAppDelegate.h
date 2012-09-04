@@ -12,10 +12,11 @@
 
 @interface busAppDelegate : NSObject <UIApplicationDelegate>{
     UINavigationController *nav;
+     NSMutableDictionary *memory;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) UINavigationController *nav;
 @property (nonatomic, retain) IBOutlet busViewController *viewController;
-
+@property (retain, nonatomic) NSMutableDictionary *memory;
 @end

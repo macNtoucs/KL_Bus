@@ -15,7 +15,7 @@
 @synthesize nav;
 @synthesize window = _window;
 @synthesize viewController = _viewController;
-
+@synthesize memory;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     UIView *backgroundView = [[UIView alloc] initWithFrame: _window.frame];
@@ -74,15 +74,62 @@
      */
 }
 
+-(bool) updateNotifiction:(UILocalNotification*) notifiction andURL:(NSString*)url
+{
+    NSError *error;
+    UInt32 big5 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingBig5);
+
+        NSData* data = [[NSString stringWithContentsOfURL: [NSURL URLWithString:url ] encoding:big5 error:&error] dataUsingEncoding:big5];
+        if (!data)
+        {
+            UIAlertView *loadingAlertView = [[UIAlertView alloc]
+                                             initWithTitle:nil message:@"當前無網路或連接伺服器失敗"
+                                             delegate:nil cancelButtonTitle:@"確定"
+                                             otherButtonTitles: nil];
+            [loadingAlertView show];
+            [loadingAlertView release];
+        }
+        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
+        NSArray *waittime  = [parser searchWithXPathQuery:@"//body//div//table//tr//td"]; // get the title
+        TFHppleElement* T_ptr2 = [waittime objectAtIndex:2];
+        NSArray *child2 = [T_ptr2 children];
+        TFHppleElement* buf2 = [child2 objectAtIndex:0];
+        NSString* result2 = [buf2 content];
+       
+         NSString *pureNumbers = [[result2 componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
+    if ([pureNumbers intValue] == 0) return true;
+    notifiction.fireDate = [NSDate dateWithTimeIntervalSinceNow: [pureNumbers intValue]*60];
+    NSLog(@"delay: %u",[pureNumbers intValue]*60);
+    NSLog(@"update firedate:%@",notifiction.fireDate);
+    return false;
+}
+
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-        NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+    NSLog(@"did enter background");
+    NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDirectory, YES);
+    NSString *filePath = [paths objectAtIndex:0];
+    filePath = [filePath stringByAppendingString:@"/database.plist"];
+    memory = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
+    while(true){
     for (UILocalNotification *notifiction in notificationArray){
-        NSString* qurey_StopName = [notifiction.userInfo objectForKey:StopNameKey];
+        NSString* query_StopName = [notifiction.userInfo objectForKey:StopNameKey];
         NSString* query_RouteName = [notifiction.userInfo objectForKey:RouteNameKey];
-       
+        NSArray *infoArray = [memory objectForKey:query_StopName];
+        NSIndexSet* route_Index =  [infoArray indexesOfObjectsPassingTest:
+                                   ^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            if ( [query_RouteName isEqualToString:obj] ) return true;
+            else return false;
+        }];
+        NSString *waitime_URL = [infoArray objectAtIndex:[route_Index firstIndex] +1];
+        NSLog(@"%@,%@" , query_StopName,query_RouteName);
+        NSLog(@"%@",[infoArray objectAtIndex:[route_Index firstIndex]]);
+        NSLog(@"%@",waitime_URL);
+        if( [self updateNotifiction:notifiction andURL:waitime_URL]) return;
         }
-        NSLog(@"did enter background");
+    sleep(40);
+    }
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
