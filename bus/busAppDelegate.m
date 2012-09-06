@@ -75,7 +75,7 @@ bool ifBreakWhile = false;
      */
 }
 
--(bool) updateNotifiction:(UILocalNotification*) notifiction andURL:(NSString*)url
+/*-(bool) updateNotifiction:(UILocalNotification*) notifiction andURL:(NSString*)url
 {
     NSError *error;
     UInt32 big5 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingBig5);
@@ -106,14 +106,10 @@ bool ifBreakWhile = false;
     NSLog(@"\n==========================================\n");
     return false;
 }
+*/
 
-
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    NSLog(@"did enter background");
-    NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
-    if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
+-(void) visitTheNotification:(NSArray *)notificationArray{
+  if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
     else ifBreakWhile = false;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDirectory, YES);
     NSString *filePath = [paths objectAtIndex:0];
@@ -123,7 +119,85 @@ bool ifBreakWhile = false;
     
     while (!ifBreakWhile){
         
-         sleep(10);
+        sleep(40);
+        for (UILocalNotification *notifiction in notificationArray){
+            NSString* query_StopName = [notifiction.userInfo objectForKey:StopNameKey];
+            NSString* query_RouteName = [notifiction.userInfo objectForKey:RouteNameKey];
+            NSArray *infoArray = [memory objectForKey:query_StopName];
+            NSIndexSet* route_Index =  [infoArray indexesOfObjectsPassingTest:
+                                        ^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                                            if ( [query_RouteName isEqualToString:obj] ) return true;
+                                            else return false;
+                                        }];
+            waitime_URL = [infoArray objectAtIndex:[route_Index firstIndex] +1];
+            NSLog(@"\n==========================================\n");
+            NSLog(@"%@,%@" , query_StopName,query_RouteName);
+            NSLog(@"%@",[infoArray objectAtIndex:[route_Index firstIndex]]);
+            NSLog(@"%@",waitime_URL);
+            
+            bool busdidReach = false;
+            NSError *error;
+            UInt32 big5 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingBig5);
+            
+            NSData* data = [[NSString stringWithContentsOfURL: [NSURL URLWithString:waitime_URL ] encoding:big5 error:&error] dataUsingEncoding:big5];
+            if (!data)
+            {
+                busdidReach = false;
+            }
+            TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
+            NSArray *waittime  = [parser searchWithXPathQuery:@"//body//div//table//tr//td"]; // get the title
+            TFHppleElement* T_ptr2 = [waittime objectAtIndex:2];
+            NSArray *child2 = [T_ptr2 children];
+            TFHppleElement* buf2 = [child2 objectAtIndex:0];
+            NSString* result2 = [buf2 content];
+            
+            NSString *pureNumbers = [[result2 componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
+            if ([pureNumbers intValue] == 0){
+                NSLog(@"%@,%@",[notifiction.userInfo objectForKey:StopNameKey],[notifiction.userInfo objectForKey:RouteNameKey]);
+                NSLog(@"%@",result2);
+                if ([result2 isEqualToString:@"即將進站..."]) busdidReach = true;
+                else busdidReach = false;
+            }
+            [notifiction.fireDate initWithTimeIntervalSinceNow: [pureNumbers intValue]*60];
+            NSLog(@"delay: %u",[pureNumbers intValue]*60);
+            NSLog(@"update firedate:%@",notifiction.fireDate);
+            NSLog(@"%@",result2);
+            NSLog(@"\n==========================================\n");
+            busdidReach = false;
+
+            
+            if( busdidReach ) {
+                ifBreakWhile =true;
+                [notifiction.fireDate initWithTimeIntervalSinceNow: 5];
+                NSLog(@"%@",[NSDate date]);
+                NSLog(@"%@",notifiction.fireDate);
+                break;
+            }
+        }
+    }
+
+
+}
+
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    NSLog(@"did enter background");
+    
+    NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+    if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
+    else ifBreakWhile = false;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDirectory, YES);
+    NSString *filePath = [paths objectAtIndex:0];
+    filePath = [filePath stringByAppendingString:@"/database.plist"];
+    memory = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
+ 
+    [NSThread detachNewThreadSelector:@selector(visitTheNotification:) toTarget:self withObject:notificationArray];
+    /*   NSMutableString *waitime_URL = [NSMutableString new];
+ 
+    while (!ifBreakWhile){
+        
+         sleep(40);
     for (UILocalNotification *notifiction in notificationArray){
         NSString* query_StopName = [notifiction.userInfo objectForKey:StopNameKey];
         NSString* query_RouteName = [notifiction.userInfo objectForKey:RouteNameKey];
@@ -146,7 +220,7 @@ bool ifBreakWhile = false;
              break;
           }
         }
-    }
+    }*/
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
