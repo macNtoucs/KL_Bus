@@ -51,6 +51,7 @@
 }
 
 -(void)addNotification:(NSString *)timeData RouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
+    NSLog(@"//////////add notification////////////");
     localNotif = [[UILocalNotification alloc] init];
     if (localNotif == nil){
         UIAlertView* alert = [[UIAlertView alloc]
@@ -74,19 +75,21 @@
     localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow: [pureNumbers intValue]*60];
     localNotif.timeZone = [NSTimeZone localTimeZone];
     
-    localNotif.alertBody = [NSString stringWithFormat:@"即將進站"];
+    
     
     localNotif.soundName = UILocalNotificationDefaultSoundName;
     localNotif.applicationIconBadgeNumber = 1;
     localNotif.userInfo = [NSDictionary dictionaryWithObjectsAndKeys:RouteName,RouteNameKey,StopName,StopNameKey, nil];
+    localNotif.alertBody = [NSString stringWithFormat:@"%@\n%@\n即將到站.....",[localNotif.userInfo objectForKey:RouteNameKey],[localNotif.userInfo objectForKey:StopNameKey]];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
     [localNotif release];
     UIAlertView* alert = [[UIAlertView alloc]
-                          initWithTitle:nil message:[NSString stringWithFormat:@"加入通知"]
+                          initWithTitle:nil message:[NSString stringWithFormat:@"%@\n%@\n加入通知",[localNotif.userInfo objectForKey:RouteNameKey],[localNotif.userInfo objectForKey:StopNameKey]]
                           delegate:nil cancelButtonTitle:@"確定"
                           otherButtonTitles: nil];
     [alert show];
     NSLog(@"%@",localNotif.fireDate);
+    NSLog(@"//////////exit add notification////////////\n");
 }
 
 -(void)removeNotificationRouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
