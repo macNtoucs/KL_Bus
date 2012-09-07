@@ -81,20 +81,17 @@ bool ifBreakWhile = false;
 
 
 -(void)updateNotification:(NSArray *)notificationArray{
-   NSAutoreleasePool *Pool = [[NSAutoreleasePool alloc] init];
-   
-    if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
+  
+if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
     else ifBreakWhile = false;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDirectory, YES);
     NSString *filePath = [paths objectAtIndex:0];
     filePath = [filePath stringByAppendingString:@"/database.plist"];
     memory = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
     waitime_URL = [NSMutableString new];
-    NSLog(@"%@", [NSThread currentThread]);
     while (!ifBreakWhile){
-        [NSThread sleepForTimeInterval:1];
-       [self sleepThread];
-        for (UILocalNotification *notifiction in notificationArray){
+        sleep(40);
+       for (UILocalNotification *notifiction in notificationArray){
             NSString* query_StopName = [notifiction.userInfo objectForKey:StopNameKey];
             NSString* query_RouteName = [notifiction.userInfo objectForKey:RouteNameKey];
             NSArray *infoArray = [memory objectForKey:query_StopName];
@@ -148,10 +145,8 @@ bool ifBreakWhile = false;
                 break;
             }
         }
-        
-        //[NSThread sleepForTimeInterval:10];
        }
-    [Pool drain];
+    
 }
 
 
@@ -161,14 +156,20 @@ bool ifBreakWhile = false;
     NSLog(@"did enter background");
     NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
     
-    if(backGround_updateNotification == nil){
+   
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self updateNotification:notificationArray];
+    });
+    
+    
+  /*  if(backGround_updateNotification == nil){
          backGround_updateNotification = [[NSThread alloc]initWithTarget:self selector:@selector(updateNotification:) object:notificationArray];
         backGround_updateNotification.name = @"背景更新線程";
         [backGround_updateNotification start];
         
     }
   
-     [NSThread setThreadPriority:1.0];
+     [NSThread setThreadPriority:1.0];*/
    }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
