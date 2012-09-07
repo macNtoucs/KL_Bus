@@ -16,9 +16,12 @@
 @synthesize window = _window;
 @synthesize viewController = _viewController;
 @synthesize memory;
+@synthesize waitime_URL;
+@synthesize backGround_updateNotification;
 bool ifBreakWhile = false;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+     NSLog(@"%@", [NSThread currentThread]);
     UIView *backgroundView = [[UIView alloc] initWithFrame: _window.frame];
     backgroundView.alpha = 0.7f;
     backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BGP.png"]];
@@ -75,51 +78,22 @@ bool ifBreakWhile = false;
      */
 }
 
-/*-(bool) updateNotifiction:(UILocalNotification*) notifiction andURL:(NSString*)url
-{
-    NSError *error;
-    UInt32 big5 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingBig5);
 
-        NSData* data = [[NSString stringWithContentsOfURL: [NSURL URLWithString:url ] encoding:big5 error:&error] dataUsingEncoding:big5];
-        if (!data)
-        {
-            return false;
-        }
-        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
-        NSArray *waittime  = [parser searchWithXPathQuery:@"//body//div//table//tr//td"]; // get the title
-        TFHppleElement* T_ptr2 = [waittime objectAtIndex:2];
-        NSArray *child2 = [T_ptr2 children];
-        TFHppleElement* buf2 = [child2 objectAtIndex:0];
-        NSString* result2 = [buf2 content];
-       
-         NSString *pureNumbers = [[result2 componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
-    if ([pureNumbers intValue] == 0){
-        NSLog(@"%@,%@",[notifiction.userInfo objectForKey:StopNameKey],[notifiction.userInfo objectForKey:RouteNameKey]);
-        NSLog(@"%@",result2);
-        if ([result2 isEqualToString:@"即將進站..."]) return true;
-        else return false;
-    }
-    [notifiction.fireDate initWithTimeIntervalSinceNow: [pureNumbers intValue]*60];
-    NSLog(@"delay: %u",[pureNumbers intValue]*60);
-    NSLog(@"update firedate:%@",notifiction.fireDate);
-    NSLog(@"%@",result2);
-    NSLog(@"\n==========================================\n");
-    return false;
-}
-*/
 
--(void) visitTheNotification:(NSArray *)notificationArray{
-  if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
+-(void)updateNotification:(NSArray *)notificationArray{
+   NSAutoreleasePool *Pool = [[NSAutoreleasePool alloc] init];
+   
+    if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
     else ifBreakWhile = false;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDirectory, YES);
     NSString *filePath = [paths objectAtIndex:0];
     filePath = [filePath stringByAppendingString:@"/database.plist"];
     memory = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
-    NSMutableString *waitime_URL = [NSMutableString new];
-    
+    waitime_URL = [NSMutableString new];
+    NSLog(@"%@", [NSThread currentThread]);
     while (!ifBreakWhile){
-        
-        sleep(40);
+        [NSThread sleepForTimeInterval:1];
+       [self sleepThread];
         for (UILocalNotification *notifiction in notificationArray){
             NSString* query_StopName = [notifiction.userInfo objectForKey:StopNameKey];
             NSString* query_RouteName = [notifiction.userInfo objectForKey:RouteNameKey];
@@ -164,7 +138,7 @@ bool ifBreakWhile = false;
             NSLog(@"%@",result2);
             NSLog(@"\n==========================================\n");
             busdidReach = false;
-
+            
             
             if( busdidReach ) {
                 ifBreakWhile =true;
@@ -174,54 +148,28 @@ bool ifBreakWhile = false;
                 break;
             }
         }
-    }
-
-
+        
+        //[NSThread sleepForTimeInterval:10];
+       }
+    [Pool drain];
 }
+
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     NSLog(@"did enter background");
-    
     NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
-    if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
-    else ifBreakWhile = false;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDirectory, YES);
-    NSString *filePath = [paths objectAtIndex:0];
-    filePath = [filePath stringByAppendingString:@"/database.plist"];
-    memory = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
- 
-    [NSThread detachNewThreadSelector:@selector(visitTheNotification:) toTarget:self withObject:notificationArray];
-    /*   NSMutableString *waitime_URL = [NSMutableString new];
- 
-    while (!ifBreakWhile){
+    
+    if(backGround_updateNotification == nil){
+         backGround_updateNotification = [[NSThread alloc]initWithTarget:self selector:@selector(updateNotification:) object:notificationArray];
+        backGround_updateNotification.name = @"背景更新線程";
+        [backGround_updateNotification start];
         
-         sleep(40);
-    for (UILocalNotification *notifiction in notificationArray){
-        NSString* query_StopName = [notifiction.userInfo objectForKey:StopNameKey];
-        NSString* query_RouteName = [notifiction.userInfo objectForKey:RouteNameKey];
-        NSArray *infoArray = [memory objectForKey:query_StopName];
-        NSIndexSet* route_Index =  [infoArray indexesOfObjectsPassingTest:
-                                   ^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-            if ( [query_RouteName isEqualToString:obj] ) return true;
-            else return false;
-        }];
-        waitime_URL = [infoArray objectAtIndex:[route_Index firstIndex] +1];
-        NSLog(@"\n==========================================\n");
-        NSLog(@"%@,%@" , query_StopName,query_RouteName);
-        NSLog(@"%@",[infoArray objectAtIndex:[route_Index firstIndex]]);
-        NSLog(@"%@",waitime_URL);
-        if( [self updateNotifiction:notifiction andURL:waitime_URL]) {
-            ifBreakWhile =true;
-            [notifiction.fireDate initWithTimeIntervalSinceNow: 5];
-            NSLog(@"%@",[NSDate date]);
-            NSLog(@"%@",notifiction.fireDate);
-             break;
-          }
-        }
-    }*/
-}
+    }
+  
+     [NSThread setThreadPriority:1.0];
+   }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     NSLog(@"//////////////enter receivelocalnotifiction////////////////\n ");
@@ -276,6 +224,10 @@ bool ifBreakWhile = false;
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
     ifBreakWhile = true;
+    NSLog(@"%@",[NSThread currentThread]);
+    [backGround_updateNotification cancel];
+    backGround_updateNotification =nil;
+    [backGround_updateNotification cancel];
     application.applicationIconBadgeNumber = 0;
     [application cancelAllLocalNotifications];
 }
