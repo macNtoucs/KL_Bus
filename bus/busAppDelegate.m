@@ -81,7 +81,7 @@ bool ifBreakWhile = false;
 
 
 -(void)updateNotification:(NSArray *)notificationArray{
-  
+    NSLog(@"%@",notificationArray);
 if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
     else ifBreakWhile = false;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDirectory, YES);
@@ -90,7 +90,7 @@ if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
     memory = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
     waitime_URL = [NSMutableString new];
     while (!ifBreakWhile){
-        sleep(40);
+      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
        for (UILocalNotification *notifiction in notificationArray){
             NSString* query_StopName = [notifiction.userInfo objectForKey:StopNameKey];
             NSString* query_RouteName = [notifiction.userInfo objectForKey:RouteNameKey];
@@ -145,6 +145,7 @@ if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
                 break;
             }
         }
+          });
        }
     
 }
@@ -161,15 +162,6 @@ if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
         [self updateNotification:notificationArray];
     });
     
-    
-  /*  if(backGround_updateNotification == nil){
-         backGround_updateNotification = [[NSThread alloc]initWithTarget:self selector:@selector(updateNotification:) object:notificationArray];
-        backGround_updateNotification.name = @"背景更新線程";
-        [backGround_updateNotification start];
-        
-    }
-  
-     [NSThread setThreadPriority:1.0];*/
    }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
