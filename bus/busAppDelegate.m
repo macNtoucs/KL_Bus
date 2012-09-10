@@ -90,8 +90,8 @@ if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
     memory = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
     waitime_URL = [NSMutableString new];
     while (!ifBreakWhile){
-      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
-       for (UILocalNotification *notifiction in notificationArray){
+         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC),dispatch_get_current_queue(), ^{
+            for (UILocalNotification *notifiction in notificationArray){
             NSString* query_StopName = [notifiction.userInfo objectForKey:StopNameKey];
             NSString* query_RouteName = [notifiction.userInfo objectForKey:RouteNameKey];
             NSArray *infoArray = [memory objectForKey:query_StopName];
@@ -145,8 +145,8 @@ if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
                 break;
             }
         }
-          });
-       }
+        });
+    }
     
 }
 
@@ -201,9 +201,7 @@ if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
     if (index==NSNotFound) {
         return;
     }
-    [temp removeObjectAtIndex:index];
-    [temp removeObjectAtIndex:index];
-    [favoriteDictionary setObject:temp forKey:[notification.userInfo objectForKey:StopNameKey]];
+    [favoriteDictionary removeAllObjects];
     [[NSUserDefaults standardUserDefaults] setObject:favoriteDictionary forKey:AlarmUserDefaultKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -222,7 +220,7 @@ if (notificationArray == nil || notificationArray.count ==0) ifBreakWhile=true;
     backGround_updateNotification =nil;
     [backGround_updateNotification cancel];
     application.applicationIconBadgeNumber = 0;
-    [application cancelAllLocalNotifications];
+   // [application cancelAllLocalNotifications];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

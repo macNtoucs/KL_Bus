@@ -203,11 +203,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "bus/busAppDelegate.m"
-         timestampString = "368944829.401881"
+         timestampString = "368950051.69799"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "218"
-         endingLineNumber = "218"
+         startingLineNumber = "216"
+         endingLineNumber = "216"
          landmarkName = "-applicationWillEnterForeground:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -216,7 +216,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "bus/busAppDelegate.m"
-         timestampString = "368944829.401881"
+         timestampString = "368950051.69799"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "164"
@@ -229,7 +229,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "bus/busAppDelegate.m"
-         timestampString = "368944829.401881"
+         timestampString = "368950051.69799"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "161"
@@ -238,28 +238,15 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "bus/busAppDelegate.m"
-         timestampString = "368694628.566202"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "92"
-         endingLineNumber = "92"
-         landmarkName = "-updateNotification:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "bus/busAppDelegate.m"
-         timestampString = "368943799.549815"
+         timestampString = "368950221.486256"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "84"
-         endingLineNumber = "84"
+         startingLineNumber = "93"
+         endingLineNumber = "93"
          landmarkName = "-updateNotification:"
          landmarkType = "5">
       </FileBreakpoint>
