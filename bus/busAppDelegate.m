@@ -154,7 +154,6 @@
                 [temp release];
 
                 
-            NSLog(@"delay: %u",[pureNumbers intValue]*60-30);
             NSLog(@"update firedate:%@",notifiction.fireDate);
             NSLog(@"%@",result2);
             NSLog(@"\n==========================================\n");
