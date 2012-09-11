@@ -226,7 +226,7 @@ int rowNumberInSection [300] ={0};
     //[temp_favoriteDic removeObjectForKey: removeArrKey ] ; //should use a tmp and you can void a dealloc
     [temp_favoriteDic setObject:removeArr forKey:removeArrKey];
    
-     NSLog(@"%u",indexPath.section);
+
       [tableView beginUpdates];
     if ( [removeArr count] ){
       [tableView deleteRowsAtIndexPaths:[[NSArray arrayWithObject:indexPath] retain] withRowAnimation:UITableViewRowAnimationFade];

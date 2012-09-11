@@ -2,37 +2,63 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}</string>
-	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
+	<key>CFBundleName</key>
+	<string>基隆XBus</string>
 	<key>CFBundleIdentifier</key>
 	<string>KeelungBusSystem.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>0.9Beta</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>UIPrerenderedIcon</key>
+			<true/>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string></string>
+				<string>ICON.png</string>
+				<string>ICONhd.png</string>
+				<string>ICONipad.png</string>
+				<string>ICONipadHD.png</string>
+			</array>
+		</dict>
+	</dict>
 	<key>CFBundleVersion</key>
-	<string>0.9Beta</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSMainNibFile</key>
-	<string>MainWindow</string>
+	<string>1.0</string>
 	<key>NSMainNibFile~ipad</key>
 	<string>MainWindow-iPad</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string></string>
+		<string>ICON.png</string>
+		<string>ICONhd.png</string>
+		<string>ICONipad.png</string>
+		<string>ICONipadHD.png</string>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>CFBundleDisplayName</key>
+	<string>基隆XBus</string>
+	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleIconFile</key>
+	<string>ICON.png</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>NSMainNibFile</key>
+	<string>MainWindow</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
 </dict>
 </plist>

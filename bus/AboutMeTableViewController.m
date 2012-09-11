@@ -17,13 +17,18 @@
     self = [super initWithStyle:style];
     if (self) {
         self.title = @"Tips & About & Links";
-		aboutText = [[NSString stringWithFormat:@"Version %@\n\n"
-                      "開發人員 : 托雷·哈特涅特、我的搭擋是宅男\n"
+		aboutText = [[NSString stringWithFormat:@""
+                      "開發人員 : 李翔昕、邱俊崎\n"
                       "現有功能: [0] 即時搜尋\n"
                       "                [1] 檢索所有公車路線\n"
                       "                [2] 加入常用站牌功能\n"
-                      "                [3] 目前位置定位\n\n", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]] retain];
-
+                      "                [3] 目前位置定位\n\n"] retain];
+        
+        aboutText2 = [[NSString stringWithFormat:@""
+                     "開發人員 : 李翔昕、邱俊崎\n"
+                     "現有功能: [0] 目前位置附近站牌\n"
+                     "                [1] 加入工具列\n"
+                     "                [2] 加入公車進站通知\n\n"] retain];
     }
     return self;
 }
@@ -108,7 +113,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -182,6 +187,16 @@
 	return textView;
 }
 
+-(NSString* )tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    
+    if (section==0) {
+        return @"Version 1.0";
+    }
+    else
+        return @"Version 0.9 beta";
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"about";
@@ -192,11 +207,17 @@
         cell.view = [self create_UITextView:nil font:[self getParagraphFont]];
     }
     
-    if (indexPath.section==0) {
+    if (indexPath.section==1) {
         cell.view.font =  [self getParagraphFont];
         cell.view.text = aboutText;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessibilityLabel = aboutText;
+    }
+    else if (indexPath.section==0) {
+        cell.view.font =  [self getParagraphFont];
+        cell.view.text = aboutText2;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessibilityLabel = aboutText2;
     }
         // Configure the cell...
     
@@ -239,14 +260,23 @@
 }
 
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	switch (indexPath.section) {
 
-		case 0:
+		case 1:
 			if (indexPath.row == 0)
 			{
-				return [self getTextHeight:aboutText font:[self getParagraphFont]];
+				NSLog(@"%@",aboutText);
+                return [self getTextHeight:aboutText font:[self getParagraphFont]];
+			}
+            break;
+        case 0:
+            if (indexPath.row == 0)
+			{
+				NSLog(@"%@",aboutText2);
+                return [self getTextHeight:aboutText2 font:[self getParagraphFont]];
 			}
 			break;
 

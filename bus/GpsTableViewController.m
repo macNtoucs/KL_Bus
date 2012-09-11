@@ -611,16 +611,12 @@
 //反查失敗
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error{
     
-    NSLog(@"Reverse Geocoder Errored");
 }
 
 //反查成功
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark{
     
-    NSLog(@"Reverse Geocoder completed");
-    
-    //將查結果輸出到addressField中
-    NSLog(@"%@, %@, %@", placemark.country, placemark.locality, placemark.thoroughfare);
+
 }
 
 #pragma mark Location Manager callbacks

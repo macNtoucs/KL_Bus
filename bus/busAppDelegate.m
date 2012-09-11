@@ -21,7 +21,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-     NSLog(@"%@", [NSThread currentThread]);
     UIView *backgroundView = [[UIView alloc] initWithFrame: _window.frame];
     backgroundView.alpha = 0.7f;
     backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BGP.png"]];
@@ -44,9 +43,7 @@
     UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (localNotif)
     {
-        NSLog(@"Recieved Notification %@",localNotif);
         NSDictionary* infoDic = localNotif.userInfo;
-        NSLog(@"userInfo description=%@",[infoDic description]);
     }
   NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -108,10 +105,7 @@
                                             else return false;
                                         }];
             waitime_URL = [infoArray objectAtIndex:[route_Index firstIndex] +1];
-            NSLog(@"\n==========================================\n");
-            NSLog(@"%@,%@" , query_StopName,query_RouteName);
-            NSLog(@"%@",[infoArray objectAtIndex:[route_Index firstIndex]]);
-            NSLog(@"%@",waitime_URL);
+
             
           __block  bool busdidReach = false;
           __block  NSError *error;
@@ -136,8 +130,7 @@
             
             NSString *pureNumbers = [[result2 componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
             if ([pureNumbers intValue] == 0){
-                NSLog(@"%@,%@",[notifiction.userInfo objectForKey:StopNameKey],[notifiction.userInfo objectForKey:RouteNameKey]);
-                NSLog(@"%@",result2);
+
                 if ([result2 isEqualToString:@"即將進站..."]) busdidReach = true;
                 else busdidReach = false;
             }
@@ -154,9 +147,7 @@
                 [temp release];
 
                 
-            NSLog(@"update firedate:%@",notifiction.fireDate);
-            NSLog(@"%@",result2);
-            NSLog(@"\n==========================================\n");
+
             busdidReach = false;
             
            });
@@ -171,8 +162,7 @@
                 temp.alertBody = [NSString stringWithFormat:@"%@\n%@\n即將到站.....",[temp.userInfo objectForKey:RouteNameKey],[temp.userInfo objectForKey:StopNameKey]];
                 [[UIApplication sharedApplication] scheduleLocalNotification:temp];
                 [temp release];
-                NSLog(@"%@",[NSDate date]);
-                NSLog(@"%@",notifiction.fireDate);
+
                 break;
             }
                
@@ -184,7 +174,6 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    NSLog(@"did enter background");
     NSArray *notificationArray = [[UIApplication sharedApplication]  scheduledLocalNotifications];
     UIApplication*    app = [UIApplication sharedApplication];
     UIBackgroundTaskIdentifier bgTask;
@@ -204,9 +193,6 @@
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
-    NSLog(@"//////////////enter receivelocalnotifiction////////////////\n ");
-    NSLog(@"%@",notification.fireDate);
-    NSLog(@"%@,%@",[notification.userInfo objectForKey:StopNameKey],[notification.userInfo objectForKey:RouteNameKey]);
     NSMutableDictionary *favoriteDictionary = [[[NSUserDefaults standardUserDefaults] objectForKey:AlarmUserDefaultKey] mutableCopy];
     NSMutableArray* temp = [[favoriteDictionary objectForKey:[notification.userInfo objectForKey:StopNameKey]] mutableCopy];
     NSInteger index = [temp indexOfObject:[notification.userInfo objectForKey:RouteNameKey]];
@@ -255,7 +241,6 @@
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
 
-    NSLog(@"%@",[NSThread currentThread]);
     [backGround_updateNotification cancel];
     backGround_updateNotification =nil;
     [backGround_updateNotification cancel];

@@ -44,6 +44,14 @@
 		C750325415E339D0005A2EB2 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C750325215E339D0005A2EB2 /* MainWindow-iPad.xib */; };
 		C759431C15B7E408009A293D /* CellLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C759431B15B7E408009A293D /* CellLabel.m */; };
 		C759431F15B7F08F009A293D /* GpsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C759431E15B7F08F009A293D /* GpsTableViewController.m */; };
+		C76CD96515FF177F00A8AED0 /* ICON.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD96415FF177F00A8AED0 /* ICON.png */; };
+		C76CD96715FF178400A8AED0 /* ICON.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD96615FF178400A8AED0 /* ICON.png */; };
+		C76CD96915FF187F00A8AED0 /* ICONhd.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD96815FF187F00A8AED0 /* ICONhd.png */; };
+		C76CD96B15FF188300A8AED0 /* ICONhd.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD96A15FF188300A8AED0 /* ICONhd.png */; };
+		C76CD96D15FF18D300A8AED0 /* ICONipad.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD96C15FF18D300A8AED0 /* ICONipad.png */; };
+		C76CD96F15FF18D600A8AED0 /* ICONipad.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD96E15FF18D600A8AED0 /* ICONipad.png */; };
+		C76CD97115FF19A500A8AED0 /* ICONipadHD.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD97015FF19A500A8AED0 /* ICONipadHD.png */; };
+		C76CD97315FF19A800A8AED0 /* ICONipadHD.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD97215FF19A800A8AED0 /* ICONipadHD.png */; };
 		C77FA4A91580668D00CC0C41 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C77FA4A81580668D00CC0C41 /* EGORefreshTableHeaderView.m */; };
 		C77FA4B21580669F00CC0C41 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C77FA4AA1580669F00CC0C41 /* blackArrow.png */; };
 		C77FA4B31580669F00CC0C41 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C77FA4AB1580669F00CC0C41 /* blackArrow@2x.png */; };
@@ -132,6 +140,14 @@
 		C759431B15B7E408009A293D /* CellLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellLabel.m; sourceTree = "<group>"; };
 		C759431D15B7F08F009A293D /* GpsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GpsTableViewController.h; sourceTree = "<group>"; };
 		C759431E15B7F08F009A293D /* GpsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GpsTableViewController.m; sourceTree = "<group>"; };
+		C76CD96415FF177F00A8AED0 /* ICON.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ICON.png; sourceTree = "<group>"; };
+		C76CD96615FF178400A8AED0 /* ICON.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ICON.png; sourceTree = "<group>"; };
+		C76CD96815FF187F00A8AED0 /* ICONhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ICONhd.png; sourceTree = "<group>"; };
+		C76CD96A15FF188300A8AED0 /* ICONhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ICONhd.png; sourceTree = "<group>"; };
+		C76CD96C15FF18D300A8AED0 /* ICONipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ICONipad.png; sourceTree = "<group>"; };
+		C76CD96E15FF18D600A8AED0 /* ICONipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ICONipad.png; sourceTree = "<group>"; };
+		C76CD97015FF19A500A8AED0 /* ICONipadHD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ICON\bipadHD.png"; sourceTree = "<group>"; };
+		C76CD97215FF19A800A8AED0 /* ICONipadHD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ICON\bipadHD.png"; sourceTree = "<group>"; };
 		C77FA4A71580668D00CC0C41 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		C77FA4A81580668D00CC0C41 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		C77FA4AA1580669F00CC0C41 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -196,6 +212,10 @@
 		C741E559155390AC00AA7359 = {
 			isa = PBXGroup;
 			children = (
+				C76CD97215FF19A800A8AED0 /* ICONipadHD.png */,
+				C76CD96E15FF18D600A8AED0 /* ICONipad.png */,
+				C76CD96A15FF188300A8AED0 /* ICONhd.png */,
+				C76CD96615FF178400A8AED0 /* ICON.png */,
 				C741E56E155390AD00AA7359 /* bus */,
 				C741E590155390AD00AA7359 /* busTests */,
 				C741E567155390AD00AA7359 /* Frameworks */,
@@ -254,6 +274,10 @@
 		C741E56F155390AD00AA7359 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C76CD96415FF177F00A8AED0 /* ICON.png */,
+				C76CD96815FF187F00A8AED0 /* ICONhd.png */,
+				C76CD96C15FF18D300A8AED0 /* ICONipad.png */,
+				C76CD97015FF19A500A8AED0 /* ICONipadHD.png */,
 				C798967415E4DA9500280A22 /* Alert.png */,
 				91FE915415E34F1D001AE041 /* database.plist */,
 				C7128EA515CF966400809AA8 /* cancel.png */,
@@ -455,6 +479,9 @@
 /* Begin PBXProject section */
 		C741E55B155390AC00AA7359 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+			};
 			buildConfigurationList = C741E55E155390AC00AA7359 /* Build configuration list for PBXProject "bus" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -496,6 +523,14 @@
 				C750325415E339D0005A2EB2 /* MainWindow-iPad.xib in Resources */,
 				91FE915515E34F1D001AE041 /* database.plist in Resources */,
 				C798967515E4DA9500280A22 /* Alert.png in Resources */,
+				C76CD96515FF177F00A8AED0 /* ICON.png in Resources */,
+				C76CD96715FF178400A8AED0 /* ICON.png in Resources */,
+				C76CD96915FF187F00A8AED0 /* ICONhd.png in Resources */,
+				C76CD96B15FF188300A8AED0 /* ICONhd.png in Resources */,
+				C76CD96D15FF18D300A8AED0 /* ICONipad.png in Resources */,
+				C76CD96F15FF18D600A8AED0 /* ICONipad.png in Resources */,
+				C76CD97115FF19A500A8AED0 /* ICONipadHD.png in Resources */,
+				C76CD97315FF19A800A8AED0 /* ICONipadHD.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,13 +698,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "bus/bus-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
 				INFOPLIST_FILE = "bus/bus-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -680,13 +716,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "bus/bus-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "\"${SDK_DIR}\"/usr/include/libxml2/**";
 				INFOPLIST_FILE = "bus/bus-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -701,6 +738,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "bus/bus-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "busTests/busTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -718,6 +756,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "bus/bus-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "busTests/busTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";

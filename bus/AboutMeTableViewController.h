@@ -12,6 +12,7 @@
 @interface AboutMeTableViewController : UITableViewController<MFMailComposeViewControllerDelegate>{
     UIFont *_paragraphFont;
     NSString *aboutText;
+    NSString *aboutText2;
 }
 
 

@@ -51,7 +51,7 @@
 }
 
 -(void)addNotification:(NSString *)timeData RouteName:(NSString *)RouteName andStopName:(NSString *)StopName{
-    NSLog(@"//////////add notification////////////");
+
     localNotif = [[UILocalNotification alloc] init];
     if (localNotif == nil){
         UIAlertView* alert = [[UIAlertView alloc]
@@ -63,8 +63,7 @@
         return;
     }
     NSString *pureNumbers = [[timeData componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
-    NSLog(@"%@,%@",timeData,pureNumbers);
-    NSLog(@"%@,%@",RouteName,StopName);
+
     if (![pureNumbers intValue]) {
         UIAlertView* alert = [[UIAlertView alloc]
                               initWithTitle:nil message:[NSString stringWithFormat:@"%@",timeData]
@@ -90,8 +89,7 @@
                           delegate:nil cancelButtonTitle:@"確定"
                           otherButtonTitles: nil];
     [alert show];
-    NSLog(@"%@",localNotif.fireDate);
-    NSLog(@"//////////exit add notification////////////\n");
+
 }
 
 -(void)removeNotificationRouteName:(NSString *)RouteName andStopName:(NSString *)StopName{

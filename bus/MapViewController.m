@@ -133,7 +133,7 @@
     //region.center.longitude = 121.779973;
     region.span = span;
         [self mapView:mapView didUpdateUserLocation:userlocation];
-    NSLog(@"現在經緯度：%f, %f",region.center.latitude,region.center.longitude);
+
     [self addBusAnnotationNearLatitude :region.center.latitude andLongtitude:region.center.longitude];
     mapView.showsUserLocation = YES;
     mapView.mapType = MKMapTypeStandard;
