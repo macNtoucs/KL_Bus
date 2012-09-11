@@ -59,6 +59,7 @@
                               delegate:nil cancelButtonTitle:@"確定"
                               otherButtonTitles: nil];
         [alert show];
+        [alert release];
         return;
     }
     NSString *pureNumbers = [[timeData componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet]] componentsJoinedByString:@""];
@@ -70,6 +71,7 @@
                               delegate:nil cancelButtonTitle:@"確定"
                               otherButtonTitles: nil];
         [alert show];
+        [alert release];
         return;
     }
     localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow: [pureNumbers intValue]*60];
@@ -180,6 +182,7 @@
     else if (ButtonMode==2)
         [sender removeFromSuperview];
     [[delegate tableView] reloadData];
+    [favoriteData release];
 }
 
 
@@ -282,13 +285,20 @@
     else{
         UIBarButtonItem* barItem2 = [[UIBarButtonItem alloc] initWithTitle:ButtonText2 style:UIBarButtonItemStyleBordered target:self action:@selector(buttonPress:)];
         [toolbarcontroller setItems:[NSArray arrayWithObjects:barItem1,barItem2,barItem3,barItem4, nil]];
+        [barItem2 release];
     }
+    [barItem1 release];
+    [barItem3 release];
+    [barItem4 release];
     [toolbarcontroller addSubview:[delegate view]];
     return toolbarcontroller;
 }
 
 -(void)dealloc{
     [toolbarcontroller release];
+    [button release];
+    [success release];
+    [localNotif release];
     [super dealloc];
 }
 

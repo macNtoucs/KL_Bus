@@ -103,10 +103,12 @@
         TFHppleElement* buf = [child objectAtIndex:0];
         [m_RouteResult addObject: [buf content] ];
     }
+    
     [self.tableView reloadData];
 }
 
 -(void)AlertStart:(UIAlertView *) loadingAlertView{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     CGRect frame = CGRectMake(120, 10, 40, 40);
     UIActivityIndicatorView* progressInd = [[UIActivityIndicatorView alloc] initWithFrame:frame];
     progressInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
@@ -114,6 +116,7 @@
     [loadingAlertView addSubview:progressInd];
     [loadingAlertView show];
     [progressInd release];
+    [pool drain];
 }
 
 - (void)refreshPropertyList{
@@ -133,6 +136,7 @@
     [self CatchData];
     [loadingAlertView dismissWithClickedButtonIndex:0 animated:NO];
     [loadingAlertView release];
+    [thread release];
 }
 
 - (void)startTimer
@@ -311,6 +315,11 @@
     [anotherButton release];
     [lastRefresh release];
     [url release];
+    [refreshTimer release];
+    [m_waitTimeResult release];
+    [m_RouteResult release];
+    [success release];
+    [toolbar release];
     [super dealloc];
 }
 

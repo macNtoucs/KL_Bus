@@ -16,7 +16,7 @@
     NSMutableString *waitime_URL;
     NSThread* backGround_updateNotification;
 }
-
+-(void)updateNotification:(NSArray *)notificationArray;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) UINavigationController *nav;
 @property (nonatomic, retain) IBOutlet busViewController *viewController;

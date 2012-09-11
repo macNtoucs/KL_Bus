@@ -32,6 +32,34 @@
     return self;
 }
 
+-(void)CatchData{
+    NSError *error;
+    UInt32 big5 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingBig5);
+    for (NSString *m_waitTimeData in m_waitTime){
+        NSData* data = [[NSString stringWithContentsOfURL: [NSURL URLWithString:m_waitTimeData ] encoding:big5 error:&error] dataUsingEncoding:big5];
+        if (!data)
+        {
+            UIAlertView *loadingAlertView = [[UIAlertView alloc]
+                                             initWithTitle:nil message:@"當前無網路或連接伺服器失敗"
+                                             delegate:nil cancelButtonTitle:@"確定"
+                                             otherButtonTitles: nil];
+            [loadingAlertView show];
+            [loadingAlertView release];
+        }
+        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
+        NSArray *waittime  = [parser searchWithXPathQuery:@"//body//div//table//tr//td"]; // get the title
+        TFHppleElement* T_ptr2 = [waittime objectAtIndex:2];
+        NSArray *child2 = [T_ptr2 children];
+        TFHppleElement* buf2 = [child2 objectAtIndex:0];
+        NSString* result2 = [buf2 content];
+        [m_waitTimeResult addObject:result2];
+        [parser release];
+    }
+    [m_waitTimeResult retain];
+    [self.tableView reloadData];
+}
+
+
 -(void)setInfo : (NSMutableArray *)input_arr
 {
     BOOL isRoutes =YES;
@@ -48,29 +76,7 @@
     }
     [m_routes retain];
     [m_waitTime retain];
-    NSError *error;
-    UInt32 big5 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingBig5);
-    for (NSString *m_waitTimeData in m_waitTime){ 
-        NSData* data = [[NSString stringWithContentsOfURL: [NSURL URLWithString:m_waitTimeData ] encoding:big5 error:&error] dataUsingEncoding:big5];
-        if (!data) 
-        {
-            UIAlertView *loadingAlertView = [[UIAlertView alloc] 
-                                             initWithTitle:nil message:@"當前無網路或連接伺服器失敗"
-                                             delegate:nil cancelButtonTitle:@"確定"
-                                             otherButtonTitles: nil];
-            [loadingAlertView show];
-            [loadingAlertView release];
-        }
-        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];   
-        NSArray *waittime  = [parser searchWithXPathQuery:@"//body//div//table//tr//td"]; // get the title
-        TFHppleElement* T_ptr2 = [waittime objectAtIndex:2];
-        NSArray *child2 = [T_ptr2 children];    
-        TFHppleElement* buf2 = [child2 objectAtIndex:0];   
-        NSString* result2 = [buf2 content];	
-        [m_waitTimeResult addObject:result2];
-        [parser release];
-    }
-    [m_waitTimeResult retain];
+    [self CatchData];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -94,24 +100,38 @@
 
 #pragma mark - View lifecycle
 
-- (void)refreshPropertyList{
-    self.lastRefresh = [NSDate date];
-    self.navigationItem.rightBarButtonItem.title = @"Refreshing";
-    UIAlertView *loadingAlertView = [[UIAlertView alloc] 
-                                     initWithTitle:nil message:@"\n\nDownloading\nPlease wait"
-                                     delegate:nil cancelButtonTitle:nil
-                                     otherButtonTitles: nil];
+-(void)AlertStart:(UIAlertView *) loadingAlertView{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     CGRect frame = CGRectMake(120, 10, 40, 40);
     UIActivityIndicatorView* progressInd = [[UIActivityIndicatorView alloc] initWithFrame:frame];
     progressInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
     [progressInd startAnimating];
     [loadingAlertView addSubview:progressInd];
     [loadingAlertView show];
-    [self.tableView reloadData];
-    [loadingAlertView dismissWithClickedButtonIndex:0 animated:NO];
     [progressInd release];
-    [loadingAlertView release];
+    [pool drain];
 }
+
+- (void)refreshPropertyList{
+    self.lastRefresh = [NSDate date];
+    self.navigationItem.rightBarButtonItem.title = @"Refreshing";
+    UIAlertView *  loadingAlertView = [[UIAlertView alloc]
+                                       initWithTitle:nil message:@"\n\nDownloading\nPlease wait"
+                                       delegate:nil cancelButtonTitle:nil
+                                       otherButtonTitles: nil];
+    NSThread*thread = [[NSThread alloc]initWithTarget:self selector:@selector(AlertStart:) object:loadingAlertView];
+    [thread start];
+    while (true) {
+        if ([thread isFinished]) {
+            break;
+        }
+    }
+    [self CatchData];
+    [loadingAlertView dismissWithClickedButtonIndex:0 animated:NO];
+    [loadingAlertView release];
+    [thread release];
+}
+
 
 - (void)startTimer
 {

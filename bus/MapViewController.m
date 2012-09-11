@@ -78,7 +78,6 @@
         NSArray *loc = [locInfo componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@","]];
         double latitude = [ [loc objectAtIndex:0] doubleValue];
         double lontitude = [ [loc objectAtIndex:1] doubleValue];
-         NSLog(@"%f  %f",latitude,lontitude);
         nearStopLoction[nearStopNumber].latitude=latitude;
         nearStopLoction[nearStopNumber].longitude=lontitude;
         ++nearStopNumber;
@@ -160,6 +159,8 @@
 {
     [mapView release];
     [switchButton release];
+    [nearStop release];
+    [*BusTitle release];
     [super dealloc];
 }
 
