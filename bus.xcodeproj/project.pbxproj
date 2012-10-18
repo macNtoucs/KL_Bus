@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		919B7C5516198D2100D037CE /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 919B7C5416198D2100D037CE /* libxml2.2.dylib */; };
 		91FE915515E34F1D001AE041 /* database.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91FE915415E34F1D001AE041 /* database.plist */; };
 		C7128EA615CF966400809AA8 /* cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = C7128EA515CF966400809AA8 /* cancel.png */; };
 		C7128EA815CF98C600809AA8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7128EA715CF98C600809AA8 /* MapKit.framework */; };
@@ -37,7 +38,6 @@
 		C741E595155390AD00AA7359 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C741E593155390AD00AA7359 /* InfoPlist.strings */; };
 		C741E597155390AD00AA7359 /* busTests.h in Resources */ = {isa = PBXBuildFile; fileRef = C741E596155390AD00AA7359 /* busTests.h */; };
 		C741E599155390AD00AA7359 /* busTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C741E598155390AD00AA7359 /* busTests.m */; };
-		C741E5A3155390D200AA7359 /* libxml2.2.7.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C741E5A2155390D200AA7359 /* libxml2.2.7.3.dylib */; };
 		C741E5AA1553919E00AA7359 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C741E5A51553919E00AA7359 /* TFHpple.m */; };
 		C741E5AB1553919E00AA7359 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C741E5A71553919E00AA7359 /* TFHppleElement.m */; };
 		C741E5AC1553919E00AA7359 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C741E5A91553919E00AA7359 /* XPathQuery.m */; };
@@ -52,6 +52,7 @@
 		C76CD96F15FF18D600A8AED0 /* ICONipad.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD96E15FF18D600A8AED0 /* ICONipad.png */; };
 		C76CD97115FF19A500A8AED0 /* ICONipadHD.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD97015FF19A500A8AED0 /* ICONipadHD.png */; };
 		C76CD97315FF19A800A8AED0 /* ICONipadHD.png in Resources */ = {isa = PBXBuildFile; fileRef = C76CD97215FF19A800A8AED0 /* ICONipadHD.png */; };
+		C777AF791622D0D00090D6C3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C777AF781622D0D00090D6C3 /* Default-568h@2x.png */; };
 		C77FA4A91580668D00CC0C41 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C77FA4A81580668D00CC0C41 /* EGORefreshTableHeaderView.m */; };
 		C77FA4B21580669F00CC0C41 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C77FA4AA1580669F00CC0C41 /* blackArrow.png */; };
 		C77FA4B31580669F00CC0C41 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C77FA4AB1580669F00CC0C41 /* blackArrow@2x.png */; };
@@ -85,6 +86,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		919B7C5416198D2100D037CE /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		91FE915415E34F1D001AE041 /* database.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = database.plist; sourceTree = "<group>"; };
 		C7128EA515CF966400809AA8 /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel.png; sourceTree = "<group>"; };
 		C7128EA715CF98C600809AA8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -127,7 +129,6 @@
 		C741E594155390AD00AA7359 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C741E596155390AD00AA7359 /* busTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = busTests.h; sourceTree = "<group>"; };
 		C741E598155390AD00AA7359 /* busTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = busTests.m; sourceTree = "<group>"; };
-		C741E5A2155390D200AA7359 /* libxml2.2.7.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.7.3.dylib; path = usr/lib/libxml2.2.7.3.dylib; sourceTree = SDKROOT; };
 		C741E5A41553919E00AA7359 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		C741E5A51553919E00AA7359 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		C741E5A61553919E00AA7359 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 		C76CD96E15FF18D600A8AED0 /* ICONipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ICONipad.png; sourceTree = "<group>"; };
 		C76CD97015FF19A500A8AED0 /* ICONipadHD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ICON\bipadHD.png"; sourceTree = "<group>"; };
 		C76CD97215FF19A800A8AED0 /* ICONipadHD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ICON\bipadHD.png"; sourceTree = "<group>"; };
+		C777AF781622D0D00090D6C3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C77FA4A71580668D00CC0C41 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		C77FA4A81580668D00CC0C41 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		C77FA4AA1580669F00CC0C41 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -184,11 +186,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				919B7C5516198D2100D037CE /* libxml2.2.dylib in Frameworks */,
 				C7128EA815CF98C600809AA8 /* MapKit.framework in Frameworks */,
 				C71D256A15BD2EE5006924EC /* CoreLocation.framework in Frameworks */,
 				C71DD63F15B56A5100B2E4C6 /* MessageUI.framework in Frameworks */,
 				C77FA4BB15806AA200CC0C41 /* QuartzCore.framework in Frameworks */,
-				C741E5A3155390D200AA7359 /* libxml2.2.7.3.dylib in Frameworks */,
 				C741E569155390AD00AA7359 /* UIKit.framework in Frameworks */,
 				C741E56B155390AD00AA7359 /* Foundation.framework in Frameworks */,
 				C741E56D155390AD00AA7359 /* CoreGraphics.framework in Frameworks */,
@@ -212,6 +214,7 @@
 		C741E559155390AC00AA7359 = {
 			isa = PBXGroup;
 			children = (
+				C777AF781622D0D00090D6C3 /* Default-568h@2x.png */,
 				C76CD97215FF19A800A8AED0 /* ICONipadHD.png */,
 				C76CD96E15FF18D600A8AED0 /* ICONipad.png */,
 				C76CD96A15FF188300A8AED0 /* ICONhd.png */,
@@ -236,7 +239,7 @@
 		C741E567155390AD00AA7359 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C741E5A2155390D200AA7359 /* libxml2.2.7.3.dylib */,
+				919B7C5416198D2100D037CE /* libxml2.2.dylib */,
 				C7128EA715CF98C600809AA8 /* MapKit.framework */,
 				C71D256915BD2EE5006924EC /* CoreLocation.framework */,
 				C71DD63E15B56A5100B2E4C6 /* MessageUI.framework */,
@@ -531,6 +534,7 @@
 				C76CD96F15FF18D600A8AED0 /* ICONipad.png in Resources */,
 				C76CD97115FF19A500A8AED0 /* ICONipadHD.png in Resources */,
 				C76CD97315FF19A800A8AED0 /* ICONipadHD.png in Resources */,
+				C777AF791622D0D00090D6C3 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,7 +709,7 @@
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -723,7 +727,7 @@
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
