@@ -22,14 +22,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     UIView *backgroundView = [[UIView alloc] initWithFrame: _window.frame];
-    backgroundView.alpha = 0.7f;
+    /*backgroundView.alpha = 0.7f;
     backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BGP.png"]];
-    
     [_window addSubview:backgroundView];
-    [backgroundView release];
+    [backgroundView release];*/
     
     RootViewController *root = [[RootViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    root.view.backgroundColor = [UIColor clearColor];
+    root.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BGP.png"]];
     
    
     nav = [UINavigationController new];
