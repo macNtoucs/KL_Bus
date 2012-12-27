@@ -19,8 +19,11 @@
 
 -(id)init{
     if (self ==[super init]) {
-        
-        toolbarcontroller = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 436, 320, 44)];
+        float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+        if (version >= 6.0)
+            toolbarcontroller = [[UIToolbar alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen] bounds].size.height-44, 320, 44)];
+        else
+            toolbarcontroller = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 436, 320, 44)];
         
         toolbarcontroller.barStyle = UIBarButtonItemStyleBordered;
         toolbarcontroller.autoresizingMask = UIViewAutoresizingFlexibleWidth;
